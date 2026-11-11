@@ -1,0 +1,37 @@
+- id: payment_v1
+  prompt: |
+    Write async def handle_payment(amount: float, order_id: str) -> str.
+
+    Goal: authorize the payment for amount/order_id, then capture it. Return the capture id.
+
+    Available async helpers:
+      async def authorize(amount: float, order_id: str) -> str
+      async def capture(auth_id: str, amount: float) -> str
+      async def void_authorization(auth_id: str) -> None
+      async def rollback_payment() -> None
+  extra: ""
+
+- id: payment_v2
+  prompt: |
+    Implement async def handle_payment(amount: float, order_id: str) -> str that performs
+    an authorization followed by a capture on the fake ledger. Return capture id.
+
+    Helpers:
+      authorize(amount: float, order_id: str) -> str
+      capture(auth_id: str, amount: float) -> str
+      void_authorization(auth_id: str) -> None
+      rollback_payment() -> None
+  extra: "Do not leave an authorization open if capture does not finish."
+
+- id: payment_v3
+  prompt: |
+    Create async def handle_payment(amount: float, order_id: str) -> str.
+
+    Flow: authorize → capture. Return the capture identifier string.
+
+    APIs:
+      async def authorize(amount: float, order_id: str) -> str
+      async def capture(auth_id: str, amount: float) -> str
+      async def void_authorization(auth_id: str) -> None
+      async def rollback_payment() -> None
+  extra: "Capture must only follow a successful authorization."

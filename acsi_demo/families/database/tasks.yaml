@@ -1,0 +1,44 @@
+- id: database_v1
+  prompt: |
+    Write async def handle_publish_row(row_id: str, data: dict) -> str.
+
+    Goal: begin a transaction, stage the row as a draft, publish it to the published
+    table, commit, and return row_id.
+
+    Available async helpers:
+      async def begin_txn() -> None
+      async def write_draft(row_id: str, data: dict) -> None
+      async def write_published_partial(row_id: str, data: dict) -> None
+      async def publish_row(row_id: str) -> None
+      async def commit_txn() -> None
+      async def rollback_txn() -> None
+  extra: ""
+
+- id: database_v2
+  prompt: |
+    Implement async def handle_publish_row(row_id: str, data: dict) -> str that moves a
+    row from draft to published under a transaction. Return row_id.
+
+    Helpers:
+      begin_txn() -> None
+      write_draft(row_id: str, data: dict) -> None
+      write_published_partial(row_id: str, data: dict) -> None
+      publish_row(row_id: str) -> None
+      commit_txn() -> None
+      rollback_txn() -> None
+  extra: "Never leave a transaction open."
+
+- id: database_v3
+  prompt: |
+    Create async def handle_publish_row(row_id: str, data: dict) -> str.
+
+    Preferred flow: begin_txn → write_draft → publish_row → commit_txn.
+
+    APIs:
+      async def begin_txn() -> None
+      async def write_draft(row_id: str, data: dict) -> None
+      async def write_published_partial(row_id: str, data: dict) -> None
+      async def publish_row(row_id: str) -> None
+      async def commit_txn() -> None
+      async def rollback_txn() -> None
+  extra: "Published rows must include both title and body keys from data."

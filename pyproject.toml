@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acsi-demo"
+version = "0.1.0"
+description = "ACSI small-sample demo: security invariants under cancellation/timeout"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pytest>=8.0",
+  "PyYAML>=6.0",
+  "openai>=1.40",
+]
+
+[tool.setuptools.packages.find]
+include = ["acsi_demo*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["acsi_demo"]

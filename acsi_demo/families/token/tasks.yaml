@@ -1,0 +1,48 @@
+- id: token_v1
+  prompt: |
+    Write async def handle_token_use(user_id: str) -> str.
+
+    Goal: refresh the user's token, optionally stage it on disk, call the API with it,
+    then revoke the token and clean temp files. Return the API result string.
+
+    Available async helpers:
+      async def refresh_token(user_id: str) -> str
+      async def write_temp_token(user_id: str, token: str) -> str
+      async def call_api(token: str) -> str
+      async def revoke_token(user_id: str) -> None
+      async def clear_temp_token(user_id: str) -> None
+      async def secure_cleanup(user_id: str) -> None
+      async def rollback_token(user_id: str) -> None
+  extra: ""
+
+- id: token_v2
+  prompt: |
+    Implement async def handle_token_use(user_id: str) -> str that obtains a fresh
+    credential, uses it against call_api, and ensures the credential cannot be reused.
+
+    Helpers:
+      refresh_token(user_id: str) -> str
+      write_temp_token(user_id: str, token: str) -> str
+      call_api(token: str) -> str
+      revoke_token(user_id: str) -> None
+      clear_temp_token(user_id: str) -> None
+      secure_cleanup(user_id: str) -> None
+      rollback_token(user_id: str) -> None
+  extra: "You may stage the token with write_temp_token if helpful."
+
+- id: token_v3
+  prompt: |
+    Create async def handle_token_use(user_id: str) -> str.
+
+    Sequence idea: refresh → (optional temp write) → API call → cleanup credentials.
+    Return the call_api response.
+
+    APIs:
+      async def refresh_token(user_id: str) -> str
+      async def write_temp_token(user_id: str, token: str) -> str
+      async def call_api(token: str) -> str
+      async def revoke_token(user_id: str) -> None
+      async def clear_temp_token(user_id: str) -> None
+      async def secure_cleanup(user_id: str) -> None
+      async def rollback_token(user_id: str) -> None
+  extra: "If you write a temp token file, remove it before returning."
